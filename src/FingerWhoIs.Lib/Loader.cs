@@ -13,6 +13,8 @@ namespace FingerWhoIs.Lib
             var accessor = new ResourceAccessor(Assembly.GetExecutingAssembly());
             var libManager = new LibraryManager(
                 Assembly.GetExecutingAssembly(),
+                new LibraryItem(Platform.Windows, Bitness.x64,
+                    new LibraryFile("dpfj.dll", accessor.Binary("dpfj.dll"))),
                 new LibraryItem(Platform.Linux, Bitness.x64,
                     new LibraryFile("libdpfj.so", accessor.Binary("libdpfj.so"))));
             

@@ -5,6 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <EmbeddedResource Include="libdpfj.so" />
+        <EmbeddedResource Include="dpfj.dll" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="NativeLibraryManager" Version="1.0.17" />
