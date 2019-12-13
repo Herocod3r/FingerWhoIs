@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="libdpfj.so" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="NativeLibraryManager" Version="1.0.17" />
+    </ItemGroup>
+
+</Project>
