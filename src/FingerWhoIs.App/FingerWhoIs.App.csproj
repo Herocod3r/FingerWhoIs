@@ -8,4 +8,8 @@
     <ItemGroup>
       <ProjectReference Include="..\FingerWhoIs.Lib\FingerWhoIs.Lib.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
+    </ItemGroup>
 </Project>
