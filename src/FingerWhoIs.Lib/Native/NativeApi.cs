@@ -118,7 +118,7 @@ namespace FingerWhoIs.Lib.Native
             return new NativeCall<dpfj_fmd_record_params>{ Value = r};
         }
 
-        internal static unsafe NativeCall<float> CompareTwoFmd(ReadOnlySpan<byte> fmd1, FmdFormat fmd1Format,ReadOnlySpan<byte> fmd2, FmdFormat fmd2Format)
+        internal static unsafe NativeCall<int> CompareTwoFmd(ReadOnlySpan<byte> fmd1, FmdFormat fmd1Format,ReadOnlySpan<byte> fmd2, FmdFormat fmd2Format)
         {
             int score = 0;
             int call = 0;
@@ -129,7 +129,7 @@ namespace FingerWhoIs.Lib.Native
                     (uint) fmd2.Length, 0, ref score);
             }
 
-            return new NativeCall<float>{Code = call,Value = ((Int32.MaxValue - score)/(float)Int32.MaxValue)*100f};
+            return new NativeCall<int>{Code = call,Value = score};
         }
 
 

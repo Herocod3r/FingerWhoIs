@@ -39,7 +39,7 @@ namespace FingerWhoIs.Lib
         }
 
 
-        public float CompareTwoFmds(ReadOnlySpan<byte> fmd1, ReadOnlySpan<byte> fmd2,FmdFormat fmdFormat1 = FmdFormat.Iso, FmdFormat fmdFormat2 = FmdFormat.Iso)
+        public int CompareTwoFmds(ReadOnlySpan<byte> fmd1, ReadOnlySpan<byte> fmd2,FmdFormat fmdFormat1 = FmdFormat.Iso, FmdFormat fmdFormat2 = FmdFormat.Iso)
         {
             if(!ValidateFMD(fmd1,fmdFormat1) || !ValidateFMD(fmd2,fmdFormat2)) throw new ArgumentException("Invalid fmds");
 
