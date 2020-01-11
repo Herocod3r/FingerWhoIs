@@ -52,7 +52,8 @@ namespace FingerWhoIs.Lib.Native
         [DllImport("dpfj",EntryPoint="dpfj_get_fmd_record_params")]
         private static extern unsafe void dpfj_get_fmd_record_params(int fmd_type,byte* fmd,ref dpfj_fmd_record_params @params);
 
-        //private static extern unsafe void dpfj_compare(int fmd1_type,byte* fmd1, uint fmd1_size,uint fmd1_view_idx,);
+        [DllImport("dpfj",EntryPoint="dpfj_compare")]
+        private static extern unsafe int dpfj_compare(int fmd1_type,byte* fmd1, uint fmd1_size,uint fmd1_view_idx,int fmd2_type,byte* fmd2,uint fmd2_size,uint fmd2_view_idx,ref int score);
         internal static string GetVersion()
         {
             dpfj_version version = new dpfj_version();
@@ -99,11 +100,20 @@ namespace FingerWhoIs.Lib.Native
             return new NativeCall<dpfj_fmd_record_params>{ Value = r};
         }
 
-        /*internal static NativeCall<float> CompareTwoFmd()
+        internal static unsafe NativeCall<float> CompareTwoFmd(ReadOnlySpan<byte> fmd1, FmdFormat fmd1Format,ReadOnlySpan<byte> fmd2, FmdFormat fmd2Format)
         {
-            
+            int score = 0;
+            int call = 0;
+            fixed(byte* fmd1ptr = fmd1)
+            fixed(byte* fmd2ptr = fmd2)
+            {
+                call = dpfj_compare((int) fmd1Format, fmd1ptr, (uint) fmd1.Length, 0, (int) fmd2Format, fmd2ptr,
+                    (uint) fmd2.Length, 0, ref score);
+            }
+
+            return new NativeCall<float>{Code = call,Value = ((Int32.MaxValue - score)/(float)Int32.MaxValue)*100f};
         }
-        */
+        
 
         
         /*private static extern int dpfj_create_fmd_from_raw(

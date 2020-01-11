@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FingerWhoIs.Lib;
+using FingerWhoIs.Lib.Native;
 
 namespace FingerWhoIs.App
 {
@@ -16,9 +17,12 @@ namespace FingerWhoIs.App
 
             var result = Convert.FromBase64String("Rk1SACAyMAAAAADYAAABAAFoAMgAyAEAAABcH4CdAD6/AIB5AGXIAICYAG1HAICuAG3OAIDNAHLUAEBoAHTDAEC4AJFOAECBAJZNAECqAJnbAIA4AKjJAIDiAMBtAIDCAMTtAIBWAM7eAIBsANlbAIAUAO3TAECOAQRqAIDIAQXyAEBhAQnoAICKARbrAEDoAST4AECxASZuAEClATJuAIA4ATTeAIAZATndAIA9AUVZAICCAU1rAEBaAVLqAEB9AVTxAECkAVR9AICYAVbzAICYAVpwAAAA");
             var result1 = Convert.FromBase64String("aGVsbG8=");
-            //var call = engine.ConvertToAnsi(result1);
+            //var call = engine.ConvertFmdFormat(result,FmdFormat.Ansi,FmdFormat.Iso);
+            //Console.WriteLine($"The converted fmd is {Convert.ToBase64String(call)}");
             //Console.WriteLine($"The Call to convert returned a byte array of length {call.Length}");
-            Console.WriteLine($"Is Fmd Valid {engine.ValidateFMD(result1)}");
+            //Console.WriteLine($"Is Fmd Valid {engine.ValidateFMD(result1)}");
+            var confScore = engine.CompareTwoFmds(result, result);
+            Console.WriteLine($"The confidence score of the match is {confScore}");
             Console.WriteLine($"The Current Native Version Is ==> {engine.NativeLibVersion}");
             Console.ReadLine();
         }

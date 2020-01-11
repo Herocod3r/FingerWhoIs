@@ -35,5 +35,25 @@ namespace FingerWhoIs.Lib
             var nativeCall = NativeApi.ValidateFMD(fmd,format);
             return nativeCall.Value.view_cnt > 0;
         }
+
+
+        public float CompareTwoFmds(ReadOnlySpan<byte> fmd1, ReadOnlySpan<byte> fmd2,FmdFormat fmdFormat1 = FmdFormat.Iso, FmdFormat fmdFormat2 = FmdFormat.Iso)
+        {
+            if(!ValidateFMD(fmd1,fmdFormat1) || !ValidateFMD(fmd2,fmdFormat2)) throw new ArgumentException("Invalid fmds");
+
+            var nativeCall = NativeApi.CompareTwoFmd(fmd1, fmdFormat1, fmd2, fmdFormat2);
+            if (nativeCall.Code != 0)
+            {
+                var message = nativeCall.Code switch
+                {
+                    InvalidParameter => "Invalid Parameter",
+                    Failure => "Unable to Compare Fmds",
+                    _ => "Engine Error"
+                };
+                throw new FingerMatchException(nativeCall.Code,message);
+            }
+
+            return nativeCall.Value;
+        }
     }
 }
