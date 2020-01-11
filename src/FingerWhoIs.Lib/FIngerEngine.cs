@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using FingerWhoIs.Lib.Native;
+using static FingerWhoIs.Lib.Const;
 
 namespace FingerWhoIs.Lib
 {
@@ -9,19 +11,28 @@ namespace FingerWhoIs.Lib
         {
             Loader.Init();
         }
-
         public string NativeLibVersion => NativeApi.GetVersion();
 
-        public Span<byte> ConvertToAnsi(byte[] isoFmd)
+        public Span<byte> ConvertFmdFormat(ReadOnlySpan<byte> fmd,FmdFormat sourceFormat, FmdFormat destFormat)
         {
-            var nativeCall = NativeApi.ConvertFMD(FmdFormat.Iso, isoFmd, FmdFormat.Ansi);
-            Console.WriteLine($"The call to the native library for fmd convert returned {nativeCall.Code}");
+            if(!ValidateFMD(fmd,sourceFormat)) throw new ArgumentException("This fmd is invalid");
+            var nativeCall = NativeApi.ConvertFMD(sourceFormat, fmd, destFormat);
+            if (nativeCall.Code != 0)
+            {
+                var message = nativeCall.Code switch
+                {
+                    InvalidParameter => "Invalid Parameter",
+                    Failure => "Unable to Process this fmd",
+                    _ => "Engine Error"
+                };
+                throw new FingerMatchException(nativeCall.Code,message);
+            }
             return nativeCall.Value;
         }
 
-        public bool ValidateFMD(ReadOnlySpan<byte> fmd)
+        public bool ValidateFMD(ReadOnlySpan<byte> fmd, FmdFormat format = FmdFormat.Iso)
         {
-            var nativeCall = NativeApi.ValidateFMD(fmd,FmdFormat.Iso);
+            var nativeCall = NativeApi.ValidateFMD(fmd,format);
             return nativeCall.Value.view_cnt > 0;
         }
     }

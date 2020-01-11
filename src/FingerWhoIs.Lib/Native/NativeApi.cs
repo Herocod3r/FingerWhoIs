@@ -36,7 +36,7 @@ namespace FingerWhoIs.Lib.Native
 
     internal class NativeCall<TValue>
     {
-        public uint Code { get; set; }
+        public int Code { get; set; }
         public TValue Value { get; set; }
     }
     
@@ -78,7 +78,7 @@ namespace FingerWhoIs.Lib.Native
             {
                 
                 var cal = dpfj_fmd_convert((int) sourceFormat,inputPr, (uint)sourceFmd.Length, (int) destFormat, bytePr, ref size);
-                nativeCall.Code = (uint)cal;
+                nativeCall.Code = cal;
                 if (cal != 0) return nativeCall;
             }
             
@@ -114,7 +114,7 @@ namespace FingerWhoIs.Lib.Native
 
     }
 
-    internal enum FmdFormat
+    public enum FmdFormat
     {
         Ansi = 0x001B0001,Iso = 0x01010001
     }
