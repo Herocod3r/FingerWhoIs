@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using FingerWhoIs.Lib.Native;
 using static FingerWhoIs.Lib.Const;
 
@@ -52,6 +54,26 @@ namespace FingerWhoIs.Lib
                 };
                 throw new FingerMatchException(nativeCall.Code,message);
             }
+
+            return nativeCall.Value;
+        }
+
+        public List<int> IdentifyFmd(ReadOnlySpan<byte> fmd1,ReadOnlySpan<byte[]> fmds,uint maxToReturn = 10,uint threshold = 21474, FmdFormat format = FmdFormat.Iso)
+        {
+            var fmdsArray = fmds.ToArray();
+            var nativeCall = NativeApi.Indentify(fmd1, format, ref fmdsArray, threshold, maxToReturn);
+            if (nativeCall.Code != 0)
+            {
+                var message = nativeCall.Code switch
+                {
+                    InvalidParameter => "Invalid Parameter",
+                    Failure => "Unable to Compare Fmds",
+                    _ => "Engine Error"
+                };
+                throw new FingerMatchException(nativeCall.Code,message);
+            }
+
+            if (nativeCall.Value.Count < 1) return new List<int>();
 
             return nativeCall.Value;
         }

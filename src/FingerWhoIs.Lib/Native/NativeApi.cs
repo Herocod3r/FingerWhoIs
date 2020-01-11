@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace FingerWhoIs.Lib.Native
 {
@@ -23,6 +26,14 @@ namespace FingerWhoIs.Lib.Native
         public uint height;
         public uint resolution;
         public uint view_cnt;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct dpfj_candidate
+    {
+        public uint size;
+        public uint fmd_idx;
+        public uint view_idx;
     }
     
 
@@ -54,6 +65,13 @@ namespace FingerWhoIs.Lib.Native
 
         [DllImport("dpfj",EntryPoint="dpfj_compare")]
         private static extern unsafe int dpfj_compare(int fmd1_type,byte* fmd1, uint fmd1_size,uint fmd1_view_idx,int fmd2_type,byte* fmd2,uint fmd2_size,uint fmd2_view_idx,ref int score);
+
+        [DllImport("dpfj",EntryPoint="dpfj_identify")]
+        private static extern unsafe int dpfj_identify(
+            int fmd1_type, byte* fmd1, uint fmd1_size, uint fmd1_view_idx, int fmds_type, uint fmds_cnt, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(JaggedArrayMarshaler))] [In] byte[][] fmds,
+            int* fmds_size, uint threshold_score,
+            ref uint candidate_cnt, dpfj_candidate* candidates
+        );
         internal static string GetVersion()
         {
             dpfj_version version = new dpfj_version();
@@ -113,19 +131,30 @@ namespace FingerWhoIs.Lib.Native
 
             return new NativeCall<float>{Code = call,Value = ((Int32.MaxValue - score)/(float)Int32.MaxValue)*100f};
         }
-        
 
-        
-        /*private static extern int dpfj_create_fmd_from_raw(
-            ref byte[] imageData,uint imageSize, uint imageWidth,uint imageHeight,uint imageDpi,int finger_pos,int cbeff_id,
-            )*/
-        
-        
 
+        internal static unsafe NativeCall<List<int>> Indentify(ReadOnlySpan<byte> fmd,FmdFormat fmdFormat,ref byte[][] fmds, uint threshold,uint maxCandidateReturend)
+        {
+            Span<dpfj_candidate> candidates = stackalloc dpfj_candidate[(int)maxCandidateReturend];
+            Span<int> fmdSizes = fmds.Length <= 128 ? stackalloc int[fmds.Length] : new int[fmds.Length];
+            for (int i = 0; i < fmds.Length; i++)
+            {
+                fmdSizes[i] = fmds[i].Length;
+            }
+
+            int call = 0;
+            
+            fixed(byte* fmd1Ptr = fmd)
+            fixed(int* fmdSizesptr = fmdSizes)
+            fixed(dpfj_candidate* candidatesPtr = candidates)
+            {
+                call = dpfj_identify((int) fmdFormat, fmd1Ptr, (uint)fmd.Length, 0, (int) fmdFormat, (uint)fmds.Length, fmds,
+                    fmdSizesptr, threshold, ref maxCandidateReturend, candidatesPtr);
+            }
+            
+            return new NativeCall<List<int>>{Code = call,Value = candidates.Slice(0,(int)maxCandidateReturend).ToArray()?.Select(x=>(int)x.fmd_idx).ToList()};
+        } 
+        
     }
 
-    public enum FmdFormat
-    {
-        Ansi = 0x001B0001,Iso = 0x01010001
-    }
 }

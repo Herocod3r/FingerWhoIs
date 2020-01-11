@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FingerWhoIs.Lib;
 using FingerWhoIs.Lib.Native;
@@ -21,8 +22,9 @@ namespace FingerWhoIs.App
             //Console.WriteLine($"The converted fmd is {Convert.ToBase64String(call)}");
             //Console.WriteLine($"The Call to convert returned a byte array of length {call.Length}");
             //Console.WriteLine($"Is Fmd Valid {engine.ValidateFMD(result1)}");
-            var confScore = engine.CompareTwoFmds(result, result);
-            Console.WriteLine($"The confidence score of the match is {confScore}");
+            //var confScore = engine.CompareTwoFmds(result, result);
+            var idsc = engine.IdentifyFmd(result, new[] {result},1);
+            Console.WriteLine($"The number of items found is {idsc.Count} and result is {JsonSerializer.Serialize(idsc)}");
             Console.WriteLine($"The Current Native Version Is ==> {engine.NativeLibVersion}");
             Console.ReadLine();
         }
