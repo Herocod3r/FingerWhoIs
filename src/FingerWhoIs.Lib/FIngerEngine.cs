@@ -63,7 +63,7 @@ namespace FingerWhoIs.Lib
             var fmdsArray = fmds.ToArray();
             for (int i = 0; i < fmdsArray.Length; i++)
             {
-                if (fmdsArray[i] == null)
+                if (fmdsArray[i] is null)
                 {
                     fmdsArray[i] = new byte[0];
                 }
