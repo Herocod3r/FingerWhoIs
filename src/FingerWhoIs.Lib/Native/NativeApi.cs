@@ -139,14 +139,7 @@ namespace FingerWhoIs.Lib.Native
             Span<int> fmdSizes = fmds.Length <= 128 ? stackalloc int[fmds.Length] : new int[fmds.Length];
             for (int i = 0; i < fmds.Length; i++)
             {
-                if (fmds[i] == null)
-                {
-                    fmdSizes[i] = 0;
-                }
-                else
-                {
-                    fmdSizes[i] = fmds[i].Length;
-                }
+                fmdSizes[i] = fmds[i].Length;
             }
 
             int call = 0;
