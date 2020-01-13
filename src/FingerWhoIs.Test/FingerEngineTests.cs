@@ -49,7 +49,7 @@ namespace FingerWhoIs.Test
         {
             var fmd = Convert.FromBase64String("Rk1SACAyMAAAAADYAAABAAFoAMgAyAEAAABcH4CdAD6/AIB5AGXIAICYAG1HAICuAG3OAIDNAHLUAEBoAHTDAEC4AJFOAECBAJZNAECqAJnbAIA4AKjJAIDiAMBtAIDCAMTtAIBWAM7eAIBsANlbAIAUAO3TAECOAQRqAIDIAQXyAEBhAQnoAICKARbrAEDoAST4AECxASZuAEClATJuAIA4ATTeAIAZATndAIA9AUVZAICCAU1rAEBaAVLqAEB9AVTxAECkAVR9AICYAVbzAICYAVpwAAAA");
             var engine = new FingerEngine();
-            var result = engine.IdentifyFmd(fmd,new [] {fmd});
+            var result = engine.IdentifyFmd(fmd,new [] {fmd,null});
 
             Assert.NotNull(result);
             Assert.NotEmpty(result);
