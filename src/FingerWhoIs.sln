@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerWhoIs.Lib", "FingerWh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerWhoIs.App", "FingerWhoIs.App\FingerWhoIs.App.csproj", "{1331A90A-153F-475F-8103-76D9A748ACA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerWhoIs.Test", "FingerWhoIs.Test\FingerWhoIs.Test.csproj", "{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{1331A90A-153F-475F-8103-76D9A748ACA5}.Release|x64.Build.0 = Release|Any CPU
 		{1331A90A-153F-475F-8103-76D9A748ACA5}.Release|x86.ActiveCfg = Release|Any CPU
 		{1331A90A-153F-475F-8103-76D9A748ACA5}.Release|x86.Build.0 = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|x64.ActiveCfg = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|x64.Build.0 = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEA314A6-3969-47D9-8D05-0BD2A0044EE2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
