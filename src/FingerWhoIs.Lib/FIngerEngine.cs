@@ -61,6 +61,13 @@ namespace FingerWhoIs.Lib
         public List<int> IdentifyFmd(ReadOnlySpan<byte> fmd1,ReadOnlySpan<byte[]> fmds,uint maxToReturn = 10,uint threshold = 21474, FmdFormat format = FmdFormat.Iso)
         {
             var fmdsArray = fmds.ToArray();
+            for (int i = 0; i < fmdsArray.Length; i++)
+            {
+                if (fmdsArray[i] is null)
+                {
+                    fmdsArray[i] = new byte[0];
+                }
+            }
             var nativeCall = NativeApi.Indentify(fmd1, format, ref fmdsArray, threshold, maxToReturn);
             if (nativeCall.Code != 0)
             {
