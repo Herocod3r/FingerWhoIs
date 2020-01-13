@@ -34,6 +34,7 @@ namespace FingerWhoIs.Lib
 
         public bool ValidateFMD(ReadOnlySpan<byte> fmd, FmdFormat format = FmdFormat.Iso)
         {
+            if (fmd.IsEmpty) return false;
             var nativeCall = NativeApi.ValidateFMD(fmd,format);
             return nativeCall.Value.view_cnt > 0;
         }
